@@ -15,13 +15,10 @@ app.use(express.json());
 app.get("/posts", (req, res) => {
 	BlogPost.find()
 		.limit(10)
-		// .then(posts => {
-  //     res.json(posts.map(post => post.serialize()));
-  //   })
-  		.then(posts => {
-      		res.json({
-        		posts: posts.map(post => post.serialize())
-      		});
+  	.then(posts => {
+        res.json({
+        	posts: posts.map(post => post.serialize())
+      	});
     	})
 		.catch(err => {
 			console.error(err);
@@ -29,9 +26,9 @@ app.get("/posts", (req, res) => {
 		});
 });
 
-app.get("/posts/:id", (res, req) => {
+app.get("/posts/:id", (req, res) => {
 	BlogPost
-		.findById(req.params.id)
+    .findById(req.params.id)
 		.then(post => res.json(post.serialize()))
 		.catch(err => {
 			console.error(err);
@@ -44,7 +41,7 @@ app.post("/posts", (req, res) => {
 	for (let i = 0 ; i < requiredFields.length ; i++) {
 		const field = requiredFields[i];
 		if (!(field in req.body)) {
-			const message = `Missing \`${field}\` in request body`;
+			const message = `Missing ${field} in request body`;
 			console.error(message);
 			return res.status(400).send(message);
 		}
